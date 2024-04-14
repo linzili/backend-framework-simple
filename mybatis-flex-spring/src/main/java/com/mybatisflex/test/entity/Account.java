@@ -9,7 +9,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-@Table("tb_account")
+@Table("account")
 public class Account {
 
     @Id(keyType = KeyType.Generator, value = KeyGenerators.snowFlakeId)
