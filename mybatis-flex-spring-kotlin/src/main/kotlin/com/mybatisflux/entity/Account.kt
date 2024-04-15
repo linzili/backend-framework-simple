@@ -9,7 +9,7 @@ import java.util.*
 @Table("tb_account")
 data class Account(
     @Id(keyType = KeyType.Generator, value = KeyGenerators.snowFlakeId)
-    var id: Int = -1,
+    var id: Int? = null,
     var userName: String? = null,
     var age: Int? = null,
     var birthday: Date? = null,
