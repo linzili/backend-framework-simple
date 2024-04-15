@@ -19,6 +19,8 @@ import com.mybatisflux.vo.BookVo
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import com.mybatisflux.entity.table.AccountTableDef.ACCOUNT;
+import com.mybatisflux.entity.table.BookTableDef.BOOK;
 
 
 @SpringBootTest
@@ -67,8 +69,10 @@ class InsertTest {
     @Test
     fun testSelectAccountVo() {
         QueryChain.of(Account::class.java).apply {
-            select(Account::id.column, Account::class.allColumns)
-            select(Book::id.column, Book::class.allColumns)
+//            select(Account::id.column, Account::class.allColumns)
+//            select(Book::id.column, Book::class.allColumns)
+            select(ACCOUNT.ID,BOOK.ID, ACCOUNT.ALL_COLUMNS, BOOK.ALL_COLUMNS)
+            from(ACCOUNT)
 //            select(Account::id.column, *Account::class.defaultColumns)
 //            select(Book::id.column, *Book::class.defaultColumns)
             leftJoin(Book::class.java) on (Account::id eq Book::accountId)
