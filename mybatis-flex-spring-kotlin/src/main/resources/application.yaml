@@ -3,4 +3,3 @@ spring:
     url: jdbc:mysql://hanzhenyun.com:3306/hz-iot
     username: root
     password: 22679efeb857e31f
-
