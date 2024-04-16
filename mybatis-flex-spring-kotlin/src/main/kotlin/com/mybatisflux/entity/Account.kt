@@ -1,8 +1,10 @@
 package com.mybatisflux.entity
 
 import com.mybatisflex.annotation.*
+import com.mybatisflex.core.BaseMapper
 import com.mybatisflex.core.activerecord.MapperModel
 import com.mybatisflex.core.keygen.KeyGenerators
+import com.mybatisflex.kotlin.extensions.db.mapper
 import java.util.*
 
 @Table("tb_account")
@@ -17,4 +19,12 @@ data class Account(
 
     @RelationOneToOne(selfField = "id", targetField = "accountId")
     var idCard: IDCard? = null,
-) : MapperModel<Account>
+) : MapperModel<Account> {
+    companion object : BaseMapper<Account> by mapper()
+
+
+}
+
+fun main() {
+    Account.selectAll()
+}

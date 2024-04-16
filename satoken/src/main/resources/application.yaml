@@ -1,0 +1,8 @@
+sa-token:
+  token-name: Authorization
+  is-log: true
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    persist-authorization: true
+

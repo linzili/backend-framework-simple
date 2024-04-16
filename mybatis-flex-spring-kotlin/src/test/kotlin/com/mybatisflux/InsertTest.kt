@@ -1,26 +1,24 @@
 package com.mybatisflux
 
 import com.mybatisflex.core.query.QueryChain
-import com.mybatisflex.core.query.QueryMethods.column
 import com.mybatisflex.core.query.QueryMethods.max
 import com.mybatisflex.kotlin.extensions.db.insert
 import com.mybatisflex.kotlin.extensions.db.mapper
 import com.mybatisflex.kotlin.extensions.db.query
 import com.mybatisflex.kotlin.extensions.kproperty.allColumns
 import com.mybatisflex.kotlin.extensions.kproperty.column
-import com.mybatisflex.kotlin.extensions.kproperty.defaultColumns
 import com.mybatisflex.kotlin.extensions.kproperty.eq
 import com.mybatisflex.kotlin.extensions.sql.on
 import com.mybatisflux.entity.Account
 import com.mybatisflux.entity.Book
+import com.mybatisflux.entity.table.AccountTableDef.ACCOUNT
+import com.mybatisflux.entity.table.BookTableDef.BOOK
 import com.mybatisflux.mapper.AccountMapper
 import com.mybatisflux.vo.AccountVo
 import com.mybatisflux.vo.BookVo
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import com.mybatisflux.entity.table.AccountTableDef.ACCOUNT;
-import com.mybatisflux.entity.table.BookTableDef.BOOK;
 
 
 @SpringBootTest
@@ -70,8 +68,10 @@ class InsertTest {
     fun testSelectAccountVo() {
         QueryChain.of(Account::class.java).apply {
 //            select(Account::id.column, Account::class.allColumns)
+            select(Account::id)
 //            select(Book::id.column, Book::class.allColumns)
-            select(ACCOUNT.ID,BOOK.ID, ACCOUNT.ALL_COLUMNS, BOOK.ALL_COLUMNS)
+            select(ACCOUNT.ID, BOOK.ID, ACCOUNT.ALL_COLUMNS, BOOK.ALL_COLUMNS)
+//            select(ACCOUNT.ALL_COLUMNS, BOOK.ALL_COLUMNS)
             from(ACCOUNT)
 //            select(Account::id.column, *Account::class.defaultColumns)
 //            select(Book::id.column, *Book::class.defaultColumns)
