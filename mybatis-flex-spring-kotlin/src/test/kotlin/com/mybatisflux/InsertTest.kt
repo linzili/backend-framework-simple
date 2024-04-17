@@ -1,7 +1,7 @@
 package com.mybatisflux
 
 import com.mybatisflex.core.query.QueryChain
-import com.mybatisflex.core.query.QueryMethods.max
+import com.mybatisflex.core.query.QueryMethods.*
 import com.mybatisflex.kotlin.extensions.db.insert
 import com.mybatisflex.kotlin.extensions.db.mapper
 import com.mybatisflex.kotlin.extensions.db.query
@@ -82,7 +82,7 @@ class InsertTest {
 //            .select(ACCOUNT.ALL_COLUMNS, BOOK.ALL_COLUMNS)
 //            .select(ACCOUNT.DEFAULT_COLUMNS, BOOK.DEFAULT_COLUMNS)
 //            .select()
-            .select(Account::class.allColumns, Book::class.allColumns,Account::id.column,Book::id.column)
+            .select(Account::class.allColumns, Book::class.allColumns, Account::id.column, Book::id.column)
 //            select(Account::id.column, *Account::class.defaultColumns)
 //            select(Book::id.column, *Book::class.defaultColumns)
             .leftJoin(Book::class.java).on(Account::id eq Book::accountId)
@@ -94,5 +94,15 @@ class InsertTest {
     @Test
     fun testRe() {
         accountMapper.selectAllWithRelations().forEach(::println)
+    }
+
+
+    @Test
+    fun test1() {
+        var obj = QueryChain.of(Account::class.java)
+            .select(if_(Account::age eq 19, true_(), false_()))
+            .where(Account::age eq 19)
+            .objAs(Boolean::class.java)
+        println(obj)
     }
 }
