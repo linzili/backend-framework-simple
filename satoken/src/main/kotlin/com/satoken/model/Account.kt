@@ -4,8 +4,13 @@ import com.mybatisflex.annotation.Table
 import com.satoken.NoArg
 
 
-@Table("tb_account")
+//@Table("tb_account")
 data class Account(
     var name: String,
     var age: Int
 )
+
+
+fun main() {
+    println(Account::class.java.getDeclaredConstructor().newInstance())
+}

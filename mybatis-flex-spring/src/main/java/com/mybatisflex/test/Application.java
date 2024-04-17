@@ -20,4 +20,7 @@ public class Application {
         AuditManager.setMessageCollector(collector);
         SpringApplication.run(Application.class, args);
     }
+
+
+
 }
