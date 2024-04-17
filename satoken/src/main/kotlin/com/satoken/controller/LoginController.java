@@ -2,6 +2,7 @@ package com.satoken.controller;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
+import com.satoken.model.Account;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,8 +22,8 @@ public class LoginController {
         // 此处仅作模拟示例，真实项目需要从数据库中查询数据进行比对
         if("zhang".equals(name) && "123456".equals(pwd)) {
             StpUtil.login(10001);
-            return null;
-//            return SaResult.ok("登录成功");
+//            return null;
+            return SaResult.ok("登录成功");
         }
         return SaResult.error("登录失败");
     }

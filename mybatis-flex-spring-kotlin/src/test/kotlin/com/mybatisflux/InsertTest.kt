@@ -8,11 +8,8 @@ import com.mybatisflex.kotlin.extensions.db.query
 import com.mybatisflex.kotlin.extensions.kproperty.allColumns
 import com.mybatisflex.kotlin.extensions.kproperty.column
 import com.mybatisflex.kotlin.extensions.kproperty.eq
-import com.mybatisflex.kotlin.extensions.sql.on
 import com.mybatisflux.entity.Account
 import com.mybatisflux.entity.Book
-import com.mybatisflux.entity.table.AccountTableDef.ACCOUNT
-import com.mybatisflux.entity.table.BookTableDef.BOOK
 import com.mybatisflux.mapper.AccountMapper
 import com.mybatisflux.vo.AccountVo
 import com.mybatisflux.vo.BookVo
@@ -66,18 +63,32 @@ class InsertTest {
 
     @Test
     fun testSelectAccountVo() {
-        QueryChain.of(Account::class.java).apply {
+//        QueryChain.of(Account::class.java).apply {
+////            select(Account::id.column, Account::class.allColumns)
+////            select(Account::id)
+////            select(Book::id.column, Book::class.allColumns)
+//            select(ACCOUNT.ID, BOOK.ID, ACCOUNT.ALL_COLUMNS, BOOK.ALL_COLUMNS)
+////            select(ACCOUNT.ALL_COLUMNS, BOOK.ALL_COLUMNS)
+//            from(ACCOUNT)
+////            select(Account::id.column, *Account::class.defaultColumns)
+////            select(Book::id.column, *Book::class.defaultColumns)
+//            leftJoin(Book::class.java) on (Account::id eq Book::accountId)
+//            listAs(AccountVo::class.java).forEach(::println)
+//        }
+        QueryChain.of(Account::class.java)
 //            select(Account::id.column, Account::class.allColumns)
-            select(Account::id)
+//            select(Account::id)
 //            select(Book::id.column, Book::class.allColumns)
-            select(ACCOUNT.ID, BOOK.ID, ACCOUNT.ALL_COLUMNS, BOOK.ALL_COLUMNS)
-//            select(ACCOUNT.ALL_COLUMNS, BOOK.ALL_COLUMNS)
-            from(ACCOUNT)
+//            .select(ACCOUNT.ALL_COLUMNS, BOOK.ALL_COLUMNS)
+//            .select(ACCOUNT.DEFAULT_COLUMNS, BOOK.DEFAULT_COLUMNS)
+//            .select()
+            .select(Account::class.allColumns, Book::class.allColumns,Account::id.column,Book::id.column)
 //            select(Account::id.column, *Account::class.defaultColumns)
 //            select(Book::id.column, *Book::class.defaultColumns)
-            leftJoin(Book::class.java) on (Account::id eq Book::accountId)
-            listAs(AccountVo::class.java).forEach(::println)
-        }
+            .leftJoin(Book::class.java).on(Account::id eq Book::accountId)
+            .listAs(AccountVo::class.java)
+            .forEach(::println)
+
     }
 
     @Test
