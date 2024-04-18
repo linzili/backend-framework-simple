@@ -1,7 +1,6 @@
 package com.satoken.enums
 
 import com.fasterxml.jackson.annotation.JsonValue
-import com.satoken.enums.BasicEnum.Companion.fromValue
 import java.io.Serializable
 
 /**
