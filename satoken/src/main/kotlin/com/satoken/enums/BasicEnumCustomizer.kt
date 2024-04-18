@@ -59,7 +59,6 @@ interface BasicEnumCustomizer {
      * @param sourceSchema 从属性中加载的 {@link Schema} 类
      * @return 获取枚举值类型对应的 {@link Schema} 类
      */
-    @Suppress("UNCHECKED_CAST")
     fun getSchemaByType(type: Type, sourceSchema: Schema<*>): Schema<Any> {
         val schema = PrimitiveType.fromType(type)?.createProperty()
             ?: ObjectSchema()
