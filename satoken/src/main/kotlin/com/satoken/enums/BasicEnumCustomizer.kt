@@ -5,7 +5,6 @@ import io.swagger.v3.oas.models.media.ObjectSchema
 import io.swagger.v3.oas.models.media.Schema
 import org.springframework.beans.BeanUtils
 import org.springframework.util.ReflectionUtils
-import java.lang.reflect.Field
 import java.lang.reflect.Modifier
 import java.lang.reflect.Type
 
@@ -62,7 +61,7 @@ interface BasicEnumCustomizer {
      */
     @Suppress("UNCHECKED_CAST")
     fun getSchemaByType(type: Type, sourceSchema: Schema<*>): Schema<Any> {
-        val schema: Schema<Any> = PrimitiveType.fromType(type)?.createProperty() as? Schema<Any>
+        val schema = PrimitiveType.fromType(type)?.createProperty()
             ?: ObjectSchema()
 
         // 获取schema的type和format
@@ -73,6 +72,6 @@ interface BasicEnumCustomizer {
         BeanUtils.copyProperties(sourceSchema, schema)
 
         // 使用根据枚举值类型获取到的schema
-        return schema.type(schemaType).format(format) as Schema<Any>
+        return schema.type(schemaType).format(format)
     }
 }

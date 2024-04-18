@@ -4,14 +4,20 @@ import com.fasterxml.jackson.annotation.JsonValue
 import com.satoken.enums.BasicEnum.Companion.fromValue
 import java.io.Serializable
 
-interface BasicEnum<V : Serializable, E : Enum<E>> {
+/**
+ * 通用枚举接口
+ *
+ * @param <V> 枚举值的类型
+ * @param <E> 子枚举类型
+ */
+interface BasicEnum<V : Serializable> {
 
     @get:JsonValue
     val value: V
 
     companion object {
         inline fun <reified B, V> Class<B>.fromValue(value: V): B?
-                where B : BasicEnum<V, *>, V : Serializable, B : Enum<B> {
+                where B : BasicEnum<V>, V : Serializable {
             return enumConstants?.asSequence()
                 ?.filter { it.value == value }
                 ?.firstOrNull()
