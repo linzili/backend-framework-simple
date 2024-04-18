@@ -1,6 +1,7 @@
 package com.satoken.enums
 
 import com.fasterxml.jackson.annotation.JsonValue
+import com.satoken.enums.BasicEnum.Companion.fromValue
 import java.io.Serializable
 
 /**
@@ -22,4 +23,15 @@ interface BasicEnum<V : Serializable> {
                 ?.firstOrNull()
         }
     }
+}
+
+inline fun <reified B : BasicEnum<V>, V:Serializable> Class<BasicEnum<V>>.fromValue(value:V): B? {
+      return  B::class.java.enumConstants.asSequence()
+            .filter { it.value==value }
+            .firstOrNull()
+}
+
+
+fun main() {
+    println(SourceEnum::class.java.fromValue(1))
 }
