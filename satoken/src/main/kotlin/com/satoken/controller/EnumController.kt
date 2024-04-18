@@ -13,7 +13,7 @@ class EnumController {
     fun getGender(@RequestBody dto: TestDto) = dto.sourceEnum
 
     @GetMapping
-    fun test1(@NotNull(value = "不允许唯恐") enum: SourceEnum) = enum?.label
+    fun test1(@NotNull(value = "不允许唯恐") enum: SourceEnum) = enum
 
 
     @GetMapping("str")

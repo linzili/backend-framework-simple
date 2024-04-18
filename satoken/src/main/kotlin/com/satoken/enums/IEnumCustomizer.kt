@@ -8,18 +8,23 @@ import org.springframework.util.ReflectionUtils
 import java.lang.reflect.Modifier
 import java.lang.reflect.Type
 
-interface BasicEnumCustomizer {
+/**
+ * IEnum枚举自定义器接口，提供操作枚举的自定义方法
+ * @see IEnum
+ */
+interface IEnumCustomizer {
 
     /**
      * 获取枚举的所有值
      *
      * @param enumClazz 枚举的class
-     * @return 枚举的所有值
+     * @return 枚举的所有值列表
      */
     fun getValues(enumClazz: Class<*>): List<Any> {
+        // 通过反射获取枚举类的所有常量
         return enumClazz.enumConstants
             .mapNotNull { item ->
-                // 收集values
+                // 收集每个枚举值的"getValue"方法返回的值
                 val getValue = ReflectionUtils.findMethod(item.javaClass, "getValue")
                 getValue?.let {
                     ReflectionUtils.makeAccessible(it)
@@ -29,18 +34,21 @@ interface BasicEnumCustomizer {
     }
 
     /**
-     * 获取值和描述对应的描述信息，值和描述信息以“:”隔开
+     * 获取枚举值和对应描述的字符串表示
      *
-     * @param enumClazz 枚举class
-     * @return 描述信息
+     * @param enumClazz 枚举的class
+     * @return 描述信息字符串
      */
     fun getDescription(enumClazz: Class<*>): String {
+        // 获取枚举类中非静态字段，并按名称降序排序
         val fieldList = enumClazz.declaredFields
             .filter { !Modifier.isStatic(it.modifiers) }
             .sortedByDescending { it.name }
 
+        // 使所有字段可访问
         fieldList.forEach { ReflectionUtils.makeAccessible(it) }
 
+        // 构建每个枚举值及其字段描述的字符串
         return enumClazz.enumConstants
             .filterNotNull().joinToString("； ") { item ->
                 fieldList.joinToString(" : ") { field ->
@@ -50,27 +58,21 @@ interface BasicEnumCustomizer {
     }
 
     /**
-     * 根据枚举值的类型获取对应的 {@link Schema} 类
-     *  这么做是因为当SpringDoc获取不到属性的具体类型时会自动生成一个string类型的 {@link Schema} ，
-     *  所以需要根据枚举值的类型获取不同的实例，例如 {@link io.swagger.v3.oas.models.media.IntegerSchema}、
-     *  {@link io.swagger.v3.oas.models.media.StringSchema}
+     * 根据枚举值的类型获取相应的Swagger Schema对象
      *
      * @param type         枚举值的类型
-     * @param sourceSchema 从属性中加载的 {@link Schema} 类
-     * @return 获取枚举值类型对应的 {@link Schema} 类
+     * @param sourceSchema 从属性中加载的原始Schema对象
+     * @return 枚举值类型对应的Schema对象
      */
     fun getSchemaByType(type: Type, sourceSchema: Schema<*>): Schema<Any> {
+        // 根据枚举值类型决定使用哪种类型的Schema
         val schema = PrimitiveType.fromType(type)?.createProperty()
             ?: ObjectSchema()
 
-        // 获取schema的type和format
-        val schemaType = schema.type
-        val format = schema.format
-
-        // 复制原schema的其它属性
+        // 复制原始schema的属性到新schema
         BeanUtils.copyProperties(sourceSchema, schema)
 
-        // 使用根据枚举值类型获取到的schema
-        return schema.type(schemaType).format(format)
+        // 返回配置好的schema
+        return schema
     }
 }
