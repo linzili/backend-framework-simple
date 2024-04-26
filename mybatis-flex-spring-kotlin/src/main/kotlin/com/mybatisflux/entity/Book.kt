@@ -9,6 +9,7 @@ import com.mybatisflex.core.keygen.KeyGenerators
 @Table("tb_book")
 data class Book(
     @Id(keyType = KeyType.Generator, value = KeyGenerators.snowFlakeId)
+    @ColumnAlias("bookId")
     var id: Long? = null,
     var accountId: Long? = null,
     var title: String? = null,
