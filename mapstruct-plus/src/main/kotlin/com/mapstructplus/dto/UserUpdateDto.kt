@@ -4,9 +4,7 @@ import com.mapstructplus.entity.User
 import io.github.linpeilie.annotations.AutoMapper
 
 @AutoMapper(target = User::class)
-data class UserDto(
-    var username: String,
+data class UserUpdateDto(
     val age: Int,
-    var gender: Int?,
-    val educationList: List<String>
-)
+    var gender: Int?
+) : BaseDto()
